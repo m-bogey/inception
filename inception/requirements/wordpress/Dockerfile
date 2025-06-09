@@ -1,6 +1,18 @@
-FROM debian:latest
+FROM debian:bullseye
 
-RUN apt update && apt upgrade && apt install -y php-fpm
+RUN apt update && apt install -y \
+    php php-fpm php-mysql curl unzip wget
 
-#run php-fpm en avant plan et -F pour forcer run en arrier plan et ignorer daemonize option from configuration file
-CMD ["php-fpm8.2", "-F"]
+WORKDIR /var/www/html
+
+RUN curl -O https://wordpress.org/latest.tar.gz && \
+    tar -xzf latest.tar.gz && \
+    mv wordpress/* . && \
+    rm -rf wordpress latest.tar.gz
+
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
+
+EXPOSE 9000
+
+CMD ["php-fpm7.4", "-F"]
+

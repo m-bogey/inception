@@ -1,8 +1,14 @@
-# Debian 11 (Bullseye)
 FROM debian:bullseye
 
-#Mettre a jour paquets et installer nginx
-RUN apt update && apt upgrade && apt install -y nginx
+RUN apt update && apt install -y nginx openssl
 
-# Lancer nginx en avant plan (daemon off), pour que le conteneur reste actif 
-CMD ["nginx", "-g", "daemon off;"]
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+COPY ./conf/ssl/ /etc/nginx/ssl/
+
+COPY ./tools/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 443
+
+CMD ["/entrypoint.sh"]
+

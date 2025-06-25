@@ -27,7 +27,8 @@ services:
     restart: always
     networks:
       - inception
-
+    ports:
+      - 8000:8000
   nginx:
     build: ./requirements/nginx
     container_name: nginx

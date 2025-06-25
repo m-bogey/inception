@@ -1,0 +1,22 @@
+# Éviter les bails lourds ou inutiles
+.git
+.gitignore
+*.log
+*.md
+*.env
+
+# Node / Python / autres
+node_modules/
+__pycache__/
+
+# Systèmes
+.DS_Store
+Thumbs.db
+
+# Sauvegardes
+*.swp
+*.bak
+*~
+
+# Exclut rien d'utile (ex: conf/ autorisé)
+

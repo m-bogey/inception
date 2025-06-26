@@ -1,28 +1,38 @@
-FROM debian:bullseye
 
-RUN apt update && apt install -y \
-	php php-fpm php-mysql curl unzip wget
+FROM debian:buster
 
-# 🔥 INSTALLE WP-CLI
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+# 🔧 Mise à jour et outils de base
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y wget php7.3 php-fpm php-mysql mariadb-client
+
+# 🔥 Téléchargement de WordPress dans /var/www/html
+RUN wget https://fr.wordpress.org/wordpress-6.0-fr_FR.tar.gz -P /var/www/html && \
+    cd /var/www/html && \
+    tar -xzf wordpress-6.0-fr_FR.tar.gz && \
+    mv wordpress/* . && \
+    rmdir wordpress && \
+    rm wordpress-6.0-fr_FR.tar.gz && \
+    chown -R www-data:www-data /var/www/html
+
+# 🔥 Téléchargement et installation du CLI WordPress
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp
 
-WORKDIR /var/www/html
+# ⚙️ Config PHP
+COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
-# telecharge wordpress
-RUN curl -O https://wordpress.org/latest.tar.gz && \
-    tar -xzf latest.tar.gz && \
-    mv wordpress/* . && \
-    rm -rf wordpress latest.tar.gz
+# 🔥 Script de config WordPress
+COPY conf/auto_config.sh /auto_config.sh
+RUN chmod +x /auto_config.sh
 
-#config php
-#COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
+# 🔥 Correction bug php
+RUN mkdir -p /run/php
 
+# Expose le port PHP-FPM
 EXPOSE 9000
 
-# Crée le dossier PID si inexistant
-#RUN mkdir -p /run/php && chown -R www-data:www-data /run/php
+# 🚀 Lancement avec le script d'auto-config
+ENTRYPOINT ["/auto_config.sh"]
+CMD ["/usr/sbin/php-fpm7.3", "-F"]
 
-#CMD ["php-fpm7.4", "-F"]
-CMD ["sleep", "infinity"]

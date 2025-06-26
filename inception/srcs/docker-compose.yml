@@ -1,4 +1,4 @@
-version: "3.8"
+#version: "3.8"
 
 services:
   mariadb:
@@ -21,14 +21,26 @@ services:
       - wordpress_data:/var/www/html
     environment:
       WORDPRESS_DB_HOST: mariadb:3306
-      WORDPRESS_DB_USER: wpuser
-      WORDPRESS_DB_PASSWORD: wppass
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_pass
+      WORDPRESS_DB_NAME: wordpress_db
+
+      WP_URL: http://localhost
+      WP_TITLE: Mon_Site_42
+      WP_ADMIN_USER: admin
+      WP_ADMIN_PASSWORD: admin_beton
+      WP_ADMIN_EMAIL: admin@example.com
+
+      WP_USER: second
+      WP_USER_EMAIL: second@example.com
+      WP_USER_PASSWORD: second_beton
+
     restart: always
     networks:
       - inception
     ports:
       - 8000:8000
+
   nginx:
     build: ./requirements/nginx
     container_name: nginx

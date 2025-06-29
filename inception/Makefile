@@ -3,10 +3,10 @@ NAME=inception
 all: up
 
 up:
-	docker-compose -f srcs/docker-compose.yml up --build -d
+	docker compose -f srcs/docker-compose.yml up --build -d
 
 down:
-	docker-compose -f srcs/docker-compose.yml down -v
+	docker compose -f srcs/docker-compose.yml down -v
 
 re: down up
 

@@ -1,4 +1,8 @@
-version: "3.8"
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt
 
 services:
   mariadb:
@@ -6,6 +10,12 @@ services:
     container_name: mariadb
     volumes:
       - mariadb_data:/var/lib/mysql
+    secrets:
+      - db_password
+      - db_root_password
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_root_password
+      - MYSQL_PASSWORD_FILE=/run/secrets/db_password
     env_file:
       - .env
     restart: always

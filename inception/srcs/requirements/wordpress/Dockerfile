@@ -1,9 +1,9 @@
 
-FROM debian:buster
+FROM debian:bullseye
 
 # 🔧 Mise à jour et outils de base
 RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y wget php7.3 php-fpm php-mysql mariadb-client
+    apt-get install -y wget php php-fpm php-mysql mariadb-client curl
 
 # 🔥 Téléchargement de WordPress dans /var/www/html
 RUN wget https://fr.wordpress.org/wordpress-6.0-fr_FR.tar.gz -P /var/www/html && \
@@ -20,7 +20,7 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
     mv wp-cli.phar /usr/local/bin/wp
 
 # ⚙️ Config PHP
-COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 # 🔥 Script de config WordPress
 COPY conf/auto_config.sh /auto_config.sh

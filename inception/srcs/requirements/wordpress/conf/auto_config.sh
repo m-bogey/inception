@@ -35,5 +35,5 @@ if [ ! -f "${WP_PATH}/wp-config.php" ]; then
 fi
 
 # 🔥 Lancement PHP-FPM
-exec /usr/sbin/php-fpm7.3 -F
+exec /usr/sbin/php-fpm7.4 -F
 

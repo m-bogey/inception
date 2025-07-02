@@ -3,6 +3,8 @@ secrets:
     file: ../secrets/db_password.txt
   db_root_password:
     file: ../secrets/db_root_password.txt
+  wp_admin_password:
+    file: ../secrets/wp_admin_password.txt
 
 services:
   mariadb:
@@ -29,6 +31,8 @@ services:
       - mariadb
     volumes:
       - wordpress_data:/var/www/html
+    environment:
+      - WP_ADMIN_PASSWORD=/run/secrets/wp_admin_password.txt
     env_file:
       - .env
     restart: always
@@ -53,8 +57,22 @@ services:
 networks:
   inception:
     driver: bridge
+      #volumes:
+      #wordpress_data:
+      #mariadb_data:
 
 volumes:
-  wordpress_data:
   mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/mbogey/data/mariadb
+      o: bind
+
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/mbogey/data/wordpress
+      o: bind
 

@@ -34,5 +34,5 @@ EXPOSE 9000
 
 # 🚀 Lancement avec le script d'auto-config
 ENTRYPOINT ["/auto_config.sh"]
-CMD ["/usr/sbin/php-fpm7.3", "-F"]
+CMD ["/usr/sbin/php-fpm7.4", "-F"]
 

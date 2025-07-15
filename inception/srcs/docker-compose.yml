@@ -1,23 +1,9 @@
-secrets:
-  db_password:
-    file: ../secrets/db_password.txt
-  db_root_password:
-    file: ../secrets/db_root_password.txt
-  wp_admin_password:
-    file: ../secrets/wp_admin_password.txt
-
 services:
   mariadb:
     build: ./requirements/mariadb
     container_name: mariadb
     volumes:
       - mariadb_data:/var/lib/mysql
-    secrets:
-      - db_password
-      - db_root_password
-    environment:
-      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_root_password
-      - MYSQL_PASSWORD_FILE=/run/secrets/db_password
     env_file:
       - .env
     restart: always
@@ -31,8 +17,6 @@ services:
       - mariadb
     volumes:
       - wordpress_data:/var/www/html
-    environment:
-      - WP_ADMIN_PASSWORD=/run/secrets/wp_admin_password.txt
     env_file:
       - .env
     restart: always

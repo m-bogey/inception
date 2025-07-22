@@ -30,12 +30,12 @@ for i in {30..0}; do
 done
 
 if ! mysqladmin ping --silent; then
-    echo "❌ MariaDB n’a pas démarré !" >&2
+    echo " MariaDB n’a pas démarré !" >&2
     exit 1
 fi
 
 # Applique l'init SQL avec variables
-echo "🚀 Setup DB et User…"
+echo " Setup DB et User…"
 mysql -u root <<-EOSQL
     SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${DB_ROOT_PASSWORD}');
     DELETE FROM mysql.user WHERE User='';

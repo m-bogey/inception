@@ -5,7 +5,7 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     env_file:
-      - .env
+      - ../../.env
     restart: always
     networks:
       - inception
@@ -18,7 +18,7 @@ services:
     volumes:
       - wordpress_data:/var/www/html
     env_file:
-      - .env
+      - ../../.env
     restart: always
     networks:
       - inception
@@ -41,9 +41,6 @@ services:
 networks:
   inception:
     driver: bridge
-      #volumes:
-      #wordpress_data:
-      #mariadb_data:
 
 volumes:
   mariadb_data:

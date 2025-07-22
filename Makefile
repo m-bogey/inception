@@ -14,4 +14,3 @@ clean: down
 	rm -rf /home/mbogey/data
 
 re: clean up
-
